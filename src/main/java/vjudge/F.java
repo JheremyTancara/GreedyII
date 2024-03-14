@@ -3,7 +3,7 @@ package vjudge;
 import java.util.*;
 
 class Edge implements Comparable<Edge> {
-  int src, dest, weight;
+  int src, desat, weight;
 
   public Edge(int src, int dest, int weight) {
     this.src = src;
