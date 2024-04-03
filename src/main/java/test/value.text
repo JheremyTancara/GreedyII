@@ -1,0 +1,114 @@
+FINAL ALGORITMIA
+Q1. Give an example where we prefer fuzzy matching over string matching.
+	- El fuzzy matching es preferible sobre el string matching  cuando estamos trabajando con datos que pueden contener variaciones, errores o discrepancias.
+
+Imagina datos de nombres de vendedores, pueden existir diferentes variaciones en la forma en que se ingresan los nombres, como errores tipográficos, abreviaciones o variaciones en la ortografía.
+Ejemplo, "Juan Pérez" podría aparecer también como "Jon Pérez", "Juan P.", "J. Pérez", "Pérez, Juan", etc.
+Ahora al buscar un nombre de un vendedor en especifico por su nombre el string matching puede fallar al no encontrar resultados debido a estas variaciones.
+
+Q2. Given T = aabcababcxab and P = ababc. Define the alphabet, finite set of states, start state, and accepting state.
+	- Definimos el alfabeto, el conjunto finito de estados, el estado inicial y el estado de aceptación en un autómata finito que representa la coincidencia de un patrón en un texto:
+
+Alfabeto: {a, b, c, x}
+Conjunto finito de estados: {0, 1, 2, 3, 4, Rechazo}
+Estado inicial: 0
+Estado de aceptación: 4
+
+Q3. Given T = aabcababcxab and P = ababc. What is the value od the transition function.
+	- Inicializamos π[0] = 0 y luego iteramos a través del patrón actualizando los valores de π[i] basados en los valores previos y el carácter actual. Si hay una coincidencia, incrementamos el valor anterior de π y lo asignamos al índice actual; si no hay coincidencia, establecemos π[i] = 0.
+     Por lo tanto, los valores de la función de transición son:
+     π = [0, 1, 0, 0, 0, 1, 2, 3, 0].
+
+Q4.
+Analisis del problema:
+Data
+Cube esta en una competicion de comida, el tiene que comer N carnes en M minutos, Cube puede comer solo una carne a la vez, buscar cual es la cantidad maxima que puede comer de carnes en el tiempo.
+- N : carnes
+- M : minutos
+
+Input:
+En la primera linea resibe un N y M
+En la segunda linea recibe las N carnes con el tiempo de cuanto tardara en comer cada una de ellas
+
+Output:
+La cantidad maxima de carnes que puede comer en M minutos.
+
+
+Input:
+5 10
+6 3 2 4 1
+
+Output:
+4
+
+
+a. Identifica si se puede resolver con programacion dinamica y/o greedy
+
+
+	a. Si se puede resolver con programacion dinamica
+		i. Analiza el problema en subproblemas
+		- El subproblema que encuentro es que al tener una lista desordenada hay que encontrar la combinacion de carnes que tengan el tiempo mas bajo para ser comidas y asi tener la cantidad maxima de carnes comidas.
+
+		ii. Identifica donde ocurre overlaps
+		- El overlap es que cuando encuentras una carne con un tiempo mayor al principio de la lista, teniendo que hacer combinaciones para poder encontrarla.
+
+	b. Si se puede resolver con programacion dp
+		i. Identifica donde ocurre el greedy choice
+		- Mi caso greedy para cada paso despues de tener la lista ya ordenada, comienza a 	sumar las carnes de menor a mayor tiempo hasta que el tiempo total consumido supere time que es el tiempo total y devuelve la cantidad de carnes comidas.
+
+		ii. Explica la subestructura optima
+		Donde la solucion
+		SO(G) = Es la solucion optima del problema.
+		G = La carne con el tiempo mas bajo para ser comidas.
+		L1 = Cada una de las carnes con su tiempo para ser comida.
+
+		- SO(G) = SO(L1) + SO(G - L1)
+
+b. Si no se puede resolver con Greedy o dp explica la razon usando un ejemplo
+	- Si se pueden resolver con los dos algoritmos.
+
+c. Resuelve el problema con Greedy sino resuelvelo usando dp
+	- Si se puede resolver con Greedy y este es el codigo:
+
+package test;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class TestGreedy {
+  public static int findMaximumMealsEat(int time, int[] meals) {
+    int quantityTime = 0, amountMeals = 0;
+    Arrays.sort(meals);
+
+    for (int i=0; i < meals.length; i++) {
+      if ((quantityTime + meals[i]) > time) {
+        break;
+      } else {
+        quantityTime += meals[i];
+        amountMeals += 1;
+      }
+    }
+    return amountMeals;
+  }
+
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+
+    int N = scanner.nextInt();
+    int M = scanner.nextInt();
+    int[] meals = new int[N];
+    for (int i = 0; i < N; i++) {
+      meals[i] = scanner.nextInt();
+    }
+
+    System.out.println(findMaximumMealsEat(M, meals));
+  }
+}
+
+
+d. Cual es el tiempo de complejidad de tu soluciòn
+	- Para la resolucion del problema uso un ciclo for y una condicional dentro del for que daria un tiempo de complejidad de O(n)
+	- Para Ordenar los datos uso el metodo de la clase Arrays que es sort que tiene un tiempo de complejidad O(n * log n)
+	- Para la entrada de datos uso un for lo cual tiene un tiempo de complejidad de O(n)
+
+Siendo el tiempo de complejidad O(n * logn)
